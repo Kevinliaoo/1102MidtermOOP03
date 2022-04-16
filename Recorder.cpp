@@ -168,14 +168,6 @@ void Class::addStudent(Student &student)
 
     // Add the student to the list
     this->student_list.push_back(&student);
-
-    vector<string> s = student.getSubjects();
-    for (int i = 0; i < s.size(); i++)
-    {
-        // Add the subject if it does not exist yet
-        if (getIndex(this->subjects, s[i]) == -1)
-            this->subjects.push_back(s[i]);
-    }
 }
 
 void Class::deleteStudent(Student &student)
@@ -221,14 +213,6 @@ int Class::getNumOfStudents(string subjectName)
 
 void Class::printNumOfStudent(string subjectName)
 {
-    int i = getIndex(this->subjects, subjectName);
-
-    if (i == -1)
-    {
-        cout << "Error: Subject " << subjectName << " could not be found." << endl;
-        return;
-    }
-
     int stds = this->getNumOfStudents(subjectName);
 
     if (stds == 0)
@@ -239,12 +223,23 @@ void Class::printNumOfStudent(string subjectName)
 
 void Class::printNumOfStudent()
 {
-    for (int i = 0; i < this->subjects.size(); i++)
+    vector<string> displayed_subjs;
+
+    for (int i = 0; i < this->student_list.size(); i++)
     {
-        string subjectName = this->subjects[i];
-        int stds = this->getNumOfStudents(subjectName);
-        if (stds > 0)
-            cout << subjectName << " " << stds << endl;
+        Student temp = *(this->student_list[i]);
+        vector<string> subjs = temp.getSubjects();
+
+        for (int j = 0; j < subjs.size(); j++)
+        {
+            string subjectName = subjs[j];
+
+            if (getIndex(displayed_subjs, subjectName) == -1)
+            {
+                displayed_subjs.push_back(subjectName);
+                this->printNumOfStudent(subjectName);
+            }
+        }
     }
 }
 
@@ -270,12 +265,6 @@ double Class::getSubjectAvg(string subjectName)
 
 void Class::printAvgScore(string subjectName)
 {
-    if (getIndex(this->subjects, subjectName) == -1)
-    {
-        cout << "Error: Subject " << subjectName << " could not be found." << endl;
-        return;
-    }
-
     double avg = getSubjectAvg(subjectName);
 
     if (avg == -1)
@@ -286,19 +275,30 @@ void Class::printAvgScore(string subjectName)
 
 void Class::printAvgScore()
 {
-    for (int i = 0; i < this->subjects.size(); i++)
+    vector<string> displayed_subjs;
+
+    for (int i = 0; i < this->student_list.size(); i++)
     {
-        string subjectName = this->subjects[i];
-        double avg = this->getSubjectAvg(subjectName);
-        if (avg != -1)
-            cout << subjectName << " " << avg << endl;
+        Student temp = *(this->student_list[i]);
+        vector<string> subjs = temp.getSubjects();
+
+        for (int j = 0; j < subjs.size(); j++)
+        {
+            string subjectName = subjs[j];
+
+            if (getIndex(displayed_subjs, subjectName) == -1)
+            {
+                displayed_subjs.push_back(subjectName);
+                this->printAvgScore(subjectName);
+            }
+        }
     }
 }
 
 void Class::printSubjectInformation(string subjectName)
 {
     int stds = getNumOfStudents(subjectName);
-    if (getIndex(this->subjects, subjectName) == -1 || stds == 0)
+    if (stds == 0)
     {
         cout << "Error: Subject " << subjectName << " could not be found." << endl;
         return;
@@ -319,12 +319,22 @@ void Class::printSubjectInformation(string subjectName)
 
 void Class::printSubjectInformation()
 {
-    for (int i = 0; i < this->subjects.size(); i++)
-    {
-        string subjectName = this->subjects[i];
-        int stds = getNumOfStudents(subjectName);
+    vector<string> displayed_subjs;
 
-        if (stds > 0)
-            this->printSubjectInformation(subjectName);
+    for (int i = 0; i < this->student_list.size(); i++)
+    {
+        Student temp = *(this->student_list[i]);
+        vector<string> subjs = temp.getSubjects();
+
+        for (int j = 0; j < subjs.size(); j++)
+        {
+            string subjectName = subjs[j];
+
+            if (getIndex(displayed_subjs, subjectName) == -1)
+            {
+                displayed_subjs.push_back(subjectName);
+                this->printSubjectInformation(subjectName);
+            }
+        }
     }
 }

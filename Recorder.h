@@ -39,8 +39,6 @@ class Class
 {
 private:
     vector<Student *> student_list;
-    vector<string> subjects;
-    vector<int> stds_in_subject;
 
     int getNumOfStudents(string subjectName);
     double getSubjectAvg(string subjectName);

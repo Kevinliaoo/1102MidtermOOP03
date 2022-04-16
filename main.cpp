@@ -33,7 +33,6 @@ int main()
 	cls.deleteStudent(a);
 	cls.deleteStudent("Student2");
 	cls.deleteStudent("Student22");
-
 	cls.printNumOfStudent();
 	cls.printNumOfStudent("oop");
 	cls.printNumOfStudent("OOP");
