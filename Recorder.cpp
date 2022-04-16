@@ -97,22 +97,19 @@ void Student::deleteGrade(string subject)
 void Student::deleteGrade()
 // Deletes all subjects
 {
-    for (int i = 0; i < this->my_subjects.size(); i++)
-    {
-        this->my_subjects.erase(this->my_subjects.begin() + i);
-        this->subject_points.erase(this->subject_points.begin() + i);
-    }
+    this->my_subjects.clear();
+    this->subject_points.clear();
 }
 
 void Student::printGrade()
 {
+    cout << "ID: " << this->id << " Name: " << this->name << endl;
     // Check if there are subjects registered
     if (this->my_subjects.size() == 0)
         cout << "Error: Grade could not be found." << endl;
     else
     {
         // Print all grades
-        cout << "ID: " << this->id << " Name: " << this->name << endl;
         for (int i = 0; i < this->my_subjects.size(); i++)
             cout << this->my_subjects[i] << " " << this->subject_points[i] << endl;
     }
@@ -128,11 +125,6 @@ int Student::getId()
     return this->id;
 }
 
-void Student::printData()
-{
-    cout << "Name: " << this->name << "\tID: " << this->id << endl;
-}
-
 bool Student::operator==(Student &std)
 {
     return (this->name == std.name) && (this->id == std.id);
@@ -146,10 +138,9 @@ int Student::getGrade(string subjectName)
     return this->subject_points[i];
 }
 
-vector<string> Student::getSubjects()
+vector<string> &Student::getSubjects()
 {
-    vector<string> temp = this->my_subjects;
-    return temp;
+    return this->my_subjects;
 }
 
 /* ********** CLASS ********** */
@@ -260,7 +251,7 @@ double Class::getSubjectAvg(string subjectName)
     if (stds == 0)
         return -1;
 
-    return grades / static_cast<double>(stds);
+    return grades / stds;
 }
 
 void Class::printAvgScore(string subjectName)

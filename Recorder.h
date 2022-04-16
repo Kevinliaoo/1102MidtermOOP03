@@ -30,9 +30,8 @@ public:
 
     string getName();
     int getId();
-    void printData();
     int getGrade(string subjectName);
-    vector<string> getSubjects();
+    vector<string> &getSubjects();
 };
 
 class Class
